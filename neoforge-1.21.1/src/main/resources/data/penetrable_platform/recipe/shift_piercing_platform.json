@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "P",
+    "P",
+    "P"
+  ],
+  "key": {
+    "P": {"item": "minecraft:glass_pane"}
+  },
+  "result": {
+    "count": 8,
+    "id": "penetrable_platform:shift_piercing_platform"
+  }
+}

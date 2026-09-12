@@ -1,0 +1,8 @@
+{
+  "block.penetrable_platform.piercing_platform": "Piercing Platform",
+  "block.penetrable_platform.shift_piercing_platform": "Sneak-Through Piercing Platform",
+  "item.penetrable_platform.piercing_platform": "Piercing Platform",
+  "item.penetrable_platform.shift_piercing_platform": "Sneak-Through Piercing Platform",
+  "item.penetrable_platform.platform_wand": "Platform Wand",
+  "itemGroup.penetrable_platform": "Penetrable Platform"
+}
