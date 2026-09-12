@@ -16,6 +16,9 @@ import net.xuwu.penetrableplatform.PenetrablePlatform;
 /**
  * A player-only one-way platform. Without the platform wand it is invisible
  * to block selection and ray casts, so attacks can pass through it naturally.
+ * The empty collision context is kept non-empty for Minecraft's block-hit
+ * particle code, which asks for the shape without an entity context and then
+ * reads its bounds unconditionally.
  */
 public class PlatformBlock extends Block {
     private final boolean passableWhileSneaking;
@@ -27,6 +30,9 @@ public class PlatformBlock extends Block {
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (context == CollisionContext.empty()) {
+            return Shapes.block();
+        }
         if (context instanceof EntityCollisionContext entityContext
                 && entityContext.getEntity() instanceof Player player
                 && PenetrablePlatform.isHoldingWand(player)) {
