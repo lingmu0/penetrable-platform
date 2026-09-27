@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["P ", "PP"],
+  "key": {
+    "P": {"item": "minecraft:glass_pane"}
+  },
+  "result": {
+    "id": "penetrable_platform:mob_piercing_platform",
+    "count": 8
+  }
+}

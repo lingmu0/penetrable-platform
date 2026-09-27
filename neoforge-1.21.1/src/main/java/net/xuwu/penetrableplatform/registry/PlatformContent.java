@@ -9,10 +9,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.xuwu.penetrableplatform.PenetrablePlatform;
 import net.xuwu.penetrableplatform.block.PlatformBlock;
+import net.xuwu.penetrableplatform.block.MobStandablePlatformBlock;
 import net.xuwu.penetrableplatform.block.SneakThroughPlatformBlock;
 
 public final class PlatformContent {
@@ -29,6 +31,9 @@ public final class PlatformContent {
     public static final Supplier<SneakThroughPlatformBlock> SHIFT_PIERCING_PLATFORM = BLOCKS.register(
             "shift_piercing_platform",
             () -> new SneakThroughPlatformBlock(platformProperties()));
+    public static final Supplier<MobStandablePlatformBlock> MOB_PIERCING_PLATFORM = BLOCKS.register(
+            "mob_piercing_platform",
+            () -> new MobStandablePlatformBlock(platformProperties()));
 
     public static final Supplier<Item> PLATFORM_WAND = ITEMS.register(
             "platform_wand",
@@ -39,6 +44,9 @@ public final class PlatformContent {
     public static final Supplier<Item> SHIFT_PIERCING_PLATFORM_ITEM = ITEMS.register(
             "shift_piercing_platform",
             () -> new BlockItem(SHIFT_PIERCING_PLATFORM.get(), new Item.Properties()));
+    public static final Supplier<Item> MOB_PIERCING_PLATFORM_ITEM = ITEMS.register(
+            "mob_piercing_platform",
+            () -> new BlockItem(MOB_PIERCING_PLATFORM.get(), new Item.Properties()));
 
     public static final Supplier<CreativeModeTab> TAB = TABS.register(
             "platforms",
@@ -49,15 +57,18 @@ public final class PlatformContent {
                         output.accept(PLATFORM_WAND.get());
                         output.accept(PIERCING_PLATFORM_ITEM.get());
                         output.accept(SHIFT_PIERCING_PLATFORM_ITEM.get());
+                        output.accept(MOB_PIERCING_PLATFORM_ITEM.get());
                     })
                     .build());
 
     private static BlockBehaviour.Properties platformProperties() {
         return BlockBehaviour.Properties.of()
-                .strength(0.3F)
+                .strength(0.3F, 3_600_000.0F)
                 .sound(SoundType.GLASS)
                 .dynamicShape()
                 .noOcclusion()
+                .isRedstoneConductor((state, level, pos) -> false)
+                .pushReaction(PushReaction.BLOCK)
                 .lightLevel(state -> 12);
     }
 

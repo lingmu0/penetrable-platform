@@ -1,10 +1,13 @@
 package net.xuwu.penetrableplatform.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -22,10 +25,32 @@ import net.xuwu.penetrableplatform.PenetrablePlatform;
  */
 public class PlatformBlock extends Block {
     private final boolean passableWhileSneaking;
+    private final boolean livingEntitiesCanStand;
 
     public PlatformBlock(Properties properties, boolean passableWhileSneaking) {
+        this(properties, passableWhileSneaking, false);
+    }
+
+    protected PlatformBlock(Properties properties, boolean passableWhileSneaking, boolean livingEntitiesCanStand) {
         super(properties);
         this.passableWhileSneaking = passableWhileSneaking;
+        this.livingEntitiesCanStand = livingEntitiesCanStand;
+    }
+
+    @Override
+    public boolean skipRendering(BlockState state, BlockState adjacentState, Direction side) {
+        return adjacentState.getBlock() instanceof PlatformBlock
+                || super.skipRendering(state, adjacentState, side);
+    }
+
+    @Override
+    public boolean canEntityDestroy(BlockState state, BlockGetter level, BlockPos pos, Entity entity) {
+        return false;
+    }
+
+    @Override
+    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
+        // Keep the platform intact even if an unusually strong explosion reaches this callback.
     }
 
     @Override
@@ -48,10 +73,18 @@ public class PlatformBlock extends Block {
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        if (!(context instanceof EntityCollisionContext entityContext)
-                || !(entityContext.getEntity() instanceof Player player)
-                || (passableWhileSneaking && player.isShiftKeyDown())
-                || player.getDeltaMovement().y > 0
+        if (!(context instanceof EntityCollisionContext entityContext)) {
+            return Shapes.empty();
+        }
+
+        Entity entity = entityContext.getEntity();
+        if (!(entity instanceof Player)
+                && !(livingEntitiesCanStand && entity instanceof LivingEntity)) {
+            return Shapes.empty();
+        }
+
+        if ((passableWhileSneaking && entity instanceof Player player && player.isShiftKeyDown())
+                || entity.getDeltaMovement().y > 0
                 || !context.isAbove(Shapes.block(), pos, false)) {
             return Shapes.empty();
         }
