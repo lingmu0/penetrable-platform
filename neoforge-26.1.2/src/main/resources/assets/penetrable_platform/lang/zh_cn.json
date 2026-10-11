@@ -1,0 +1,10 @@
+{
+  "block.penetrable_platform.piercing_platform": "穿透平台",
+  "block.penetrable_platform.shift_piercing_platform": "潜行下落穿透平台",
+  "block.penetrable_platform.mob_piercing_platform": "生物可站穿透平台",
+  "item.penetrable_platform.piercing_platform": "穿透平台",
+  "item.penetrable_platform.shift_piercing_platform": "潜行下落穿透平台",
+  "item.penetrable_platform.mob_piercing_platform": "生物可站穿透平台",
+  "item.penetrable_platform.platform_wand": "平台手杖",
+  "itemGroup.penetrable_platform": "穿透平台"
+}

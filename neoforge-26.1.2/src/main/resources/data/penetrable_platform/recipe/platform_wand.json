@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S  ",
+    " G ",
+    "  D"
+  ],
+  "key": {
+    "S": "minecraft:stick",
+    "G": "minecraft:gold_ingot",
+    "D": "minecraft:diamond"
+  },
+  "result": {
+    "count": 1,
+    "id": "penetrable_platform:platform_wand"
+  }
+}

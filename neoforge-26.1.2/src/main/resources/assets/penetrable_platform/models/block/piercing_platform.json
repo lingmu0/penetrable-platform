@@ -1,0 +1,7 @@
+{
+  "parent": "penetrable_platform:block/platform_shell",
+  "textures": {
+    "all": {"sprite": "penetrable_platform:block/seamless_glass", "force_translucent": true},
+    "particle": "minecraft:block/glass"
+  }
+}
